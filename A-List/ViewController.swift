@@ -50,7 +50,7 @@ class ViewController: UIViewController, UIActionSheetDelegate {
         headerView.artistCountLabel.text = "You have added " + String(celebrities.count) + " artist(s)."
         view.addSubview(tableView)
         
-        rightBarButtonItem.title = "+"
+        rightBarButtonItem.title = "➕"
         rightBarButtonItem.style = .plain
         rightBarButtonItem.tintColor = .black
         rightBarButtonItem.target = self

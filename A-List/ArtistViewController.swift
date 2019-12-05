@@ -13,6 +13,7 @@ class ArtistViewController: UIViewController {
     var nameLabel: UILabel!
     var profileView: UIImageView!
     var nameText: UILabel!
+    var bar: UILabel!
     
     let nameLabelHeight: CGFloat = 36
     let profileLength: CGFloat = 65
@@ -48,6 +49,41 @@ class ArtistViewController: UIViewController {
         profileView.contentMode = .scaleAspectFill
         profileView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(profileView)
+        
+        bar = UILabel()
+        bar.frame = CGRect(x: 0, y: 0, width: 369, height: 51)
+        bar.backgroundColor = .white
+        
+        let shadows = UIView()
+        shadows.frame = bar.frame
+        shadows.clipsToBounds = false
+        bar.addSubview(shadows)
+
+        let shadowPath0 = UIBezierPath(roundedRect: shadows.bounds, cornerRadius: 50)
+        let layer0 = CALayer()
+        layer0.shadowPath = shadowPath0.cgPath
+        layer0.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.25).cgColor
+        layer0.shadowOpacity = 1
+        layer0.shadowRadius = 10
+        layer0.shadowOffset = CGSize(width: 0, height: 4)
+        layer0.bounds = shadows.bounds
+        layer0.position = shadows.center
+        shadows.layer.addSublayer(layer0)
+
+        let shapes = UIView()
+        shapes.frame = bar.frame
+        shapes.clipsToBounds = true
+        bar.addSubview(shapes)
+
+        let layer1 = CALayer()
+        layer1.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 1).cgColor
+        layer1.bounds = shapes.bounds
+        layer1.position = shapes.center
+        shapes.layer.addSublayer(layer1)
+
+        shapes.layer.cornerRadius = 25
+        bar.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(bar)
 
         setupConstraints()
     }
@@ -64,6 +100,13 @@ class ArtistViewController: UIViewController {
             nameLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             nameLabel.heightAnchor.constraint(equalToConstant: nameLabelHeight),
             nameLabel.topAnchor.constraint(equalTo: profileView.bottomAnchor, constant: 16)
+        ])
+        
+        NSLayoutConstraint.activate([
+            bar.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 22),
+            bar.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 16)
+//            bar.heightAnchor.constraint(equalToConstant: 51),
+//            bar.widthAnchor.constraint(equalToConstant: 369),
         ])
     }
     

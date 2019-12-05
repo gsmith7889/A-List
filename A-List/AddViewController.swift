@@ -40,8 +40,8 @@ class AddViewController: UIViewController {
         
         artistLabel = UILabel()
         artistLabel.text = "Artist's Name* "
+        artistLabel.textColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.7)
         artistLabel.translatesAutoresizingMaskIntoConstraints = false
-        artistLabel.textColor = .black
         artistLabel.textAlignment = .center
         artistLabel.font = UIFont.systemFont(ofSize: 10)
         view.addSubview(artistLabel)
@@ -57,8 +57,8 @@ class AddViewController: UIViewController {
         
         instaLabel = UILabel()
         instaLabel.text = "Instagram "
+        instaLabel.textColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.7)
         instaLabel.translatesAutoresizingMaskIntoConstraints = false
-        instaLabel.textColor = .black
         instaLabel.textAlignment = .center
         instaLabel.font = UIFont.systemFont(ofSize: 10)
         view.addSubview(instaLabel)
@@ -82,6 +82,7 @@ class AddViewController: UIViewController {
         profileTextLabel  = UILabel()
         profileTextLabel.translatesAutoresizingMaskIntoConstraints = false
         profileTextLabel.text = "Add a Profile Picture"
+        profileTextLabel.textColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.7)
         profileTextLabel.textAlignment = .center
         profileTextLabel.font = UIFont.systemFont(ofSize: 10)
         view.addSubview(profileTextLabel)
@@ -89,6 +90,7 @@ class AddViewController: UIViewController {
         imageTextLabel  = UILabel()
         imageTextLabel.translatesAutoresizingMaskIntoConstraints = false
         imageTextLabel.text = "Add a Photo"
+        imageTextLabel.textColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.7)
         imageTextLabel.textAlignment = .center
         imageTextLabel.font = UIFont.systemFont(ofSize: 10)
         view.addSubview(imageTextLabel)
