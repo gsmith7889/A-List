@@ -7,13 +7,15 @@
 //
 import UIKit
 
-class ArtistViewController: ViewController {
+class ArtistViewController: UIViewController {
     
     var celebrity: Celebrity
     var nameLabel: UILabel!
     var profileView: UIImageView!
     var nameText: UILabel!
-    let profileLength: CGFloat = 55
+    
+    let nameLabelHeight: CGFloat = 36
+    let profileLength: CGFloat = 65
 
 //    weak var delegate: ArtistDelegate?
     
@@ -28,15 +30,19 @@ class ArtistViewController: ViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        view.backgroundColor = .white
         
         nameLabel = UILabel()
-        nameLabel.font = UIFont(name: "Verdana", size: 17)
+        nameLabel.font = UIFont(name: "Verdana", size: 30)
+        nameLabel.textColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.7)
         nameLabel.text = celebrity.name
-        nameLabel.addCharacterSpacing(kernValue: 0.68)
+        nameLabel.addCharacterSpacing(kernValue: 0.75)
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(nameLabel)
         
         profileView = UIImageView()
+        profileView.image = UIImage(named: celebrity.profile)!
         profileView.clipsToBounds = true
         profileView.layer.cornerRadius = profileLength/2
         profileView.contentMode = .scaleAspectFill
@@ -46,10 +52,19 @@ class ArtistViewController: ViewController {
         setupConstraints()
     }
     
-//    override func setupConstraints() {
-//        NSLayoutConstraint.activate([
-//            nameLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 89),
-//            nameLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 12)
-//        ])
-//    }
+    func setupConstraints() {
+        NSLayoutConstraint.activate([
+            profileView.heightAnchor.constraint(equalToConstant: profileLength),
+            profileView.widthAnchor.constraint(equalToConstant: profileLength),
+            profileView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            profileView.topAnchor.constraint(equalTo: view.topAnchor, constant: 100),
+        ])
+        
+        NSLayoutConstraint.activate([
+            nameLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            nameLabel.heightAnchor.constraint(equalToConstant: nameLabelHeight),
+            nameLabel.topAnchor.constraint(equalTo: profileView.bottomAnchor, constant: 16)
+        ])
+    }
+    
 }

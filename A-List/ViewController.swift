@@ -27,7 +27,7 @@ class ViewController: UIViewController, UIActionSheetDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+       
         title = "A-List"
         view.backgroundColor = .white
         

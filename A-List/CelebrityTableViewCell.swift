@@ -13,7 +13,6 @@ class CelebrityTableViewCell: UITableViewCell {
     var profileView: UIImageView!
     var ellipse : UIButton!
     
-    
     let nameLabelHeight: CGFloat = 20
     let profileLength: CGFloat = 55
 
