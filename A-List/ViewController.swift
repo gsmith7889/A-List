@@ -7,37 +7,37 @@
 //
 import UIKit
 
-//protocol ArtistDelegate: class {
-//
-//}
+protocol Delegate: class {
+    func addCelebrity(to artist: String, to insta: String, to profile: UIImage, to image: UIImage)
+}
 
 class ViewController: UIViewController, UIActionSheetDelegate {
-
+    
     var isMultipleTouchEnabled: Bool {true}
     var tableView: UITableView!
     var artistCountLabel: UILabel!
     let rightBarButtonItem = UIBarButtonItem()
-
+    
     let reuseIdentifier = "celebrityCellReuse"
     let cellWidth: CGFloat = 379
     let cellHeight: CGFloat = 74
     let cellSpacingHeight: CGFloat = 30
     var celebrities: [Celebrity]!
     
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-       
+        
         title = "A-List"
         view.backgroundColor = .white
         
-        let bts = Celebrity(name: "BTS", profile: "bts")
-        let ariana = Celebrity(name: "Ariana Grande", profile: "ari")
-        let halsey = Celebrity(name: "Halsey", profile:  "halsey")
-           
-
+        let bts = Celebrity(name: "BTS", profile: "bts", photo: "map")
+        let ariana = Celebrity(name: "Ariana Grande", profile: "ari", photo: "thanks")
+        let halsey = Celebrity(name: "Halsey", profile:  "halsey", photo: "maniac")
+        
+        
         celebrities = [bts, ariana, halsey]
-
+        
         tableView = UITableView()
         tableView.separatorStyle = .none
         tableView.backgroundColor = .white
@@ -56,13 +56,13 @@ class ViewController: UIViewController, UIActionSheetDelegate {
         rightBarButtonItem.target = self
         rightBarButtonItem.action = #selector(pushAddViewController)
         navigationItem.rightBarButtonItems = [rightBarButtonItem]
-
+        
         setupConstraints()
     }
     
     @objc func pushAddViewController() {
         let viewController =  AddViewController()
-//        viewController.delegate = self
+        viewController.delegate = self
         navigationController?.pushViewController(viewController, animated: true)
         
     }
@@ -74,11 +74,10 @@ class ViewController: UIViewController, UIActionSheetDelegate {
             tableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 17),
             tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 8),
-
+            
         ])
     }
 }
-
 
 extension ViewController: UITableViewDataSource {
     
@@ -96,27 +95,44 @@ extension ViewController: UITableViewDataSource {
         
         return cell
     }
+    
     @objc func displayActionSheet(_ sender: UIButton){
-      //let celebrity = celebrities[sender.tag]
+        let celebrity = celebrities[sender.tag]
+        
         let optionMenu = UIAlertController(title: nil, message: "Choose Option", preferredStyle: .actionSheet)
         
         let editAction = UIAlertAction(title: "Edit ✎", style: .default)
         editAction.setValue(UIColor(red: 0.302, green: 0.302, blue: 0.302, alpha: 1), forKey: "titleTextColor")
-        let deleteAction = UIAlertAction(title: "Delete ☓", style: .default)
+//        editAction.
+        let deleteAction = UIAlertAction(title: "Delete ☓", style: .default, handler: { action in
+            self.deleteCelebrity(index: celebrity)})
         deleteAction.setValue(UIColor(red: 0.302, green: 0.302, blue: 0.302, alpha: 1), forKey: "titleTextColor")
+        
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
         cancelAction.setValue(UIColor(red: 0.302, green: 0.302, blue: 0.302, alpha: 1), forKey: "titleTextColor")
-                
+        
         optionMenu.addAction(editAction)
         optionMenu.addAction(deleteAction)
         optionMenu.addAction(cancelAction)
-                
+        
         self.present(optionMenu, animated: true, completion: nil)
     }
+    
+    func deleteCelebrity(index : Celebrity){
+        celebrities.removeAll { (celeb) -> Bool in
+            if  index.name == celeb.name{
+                return true
+            }
+            return false
+        }
+        tableView.reloadData()
+        
+        
+    }
 }
-
+    
 extension ViewController: UITableViewDelegate {
-
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 104
     }
@@ -128,8 +144,13 @@ extension ViewController: UITableViewDelegate {
     }
 }
 
+extension ViewController: Delegate {
+    func addCelebrity(to artist: String, to insta: String, to profile: UIImage, to image: UIImage){
+//        celebrities.add(Celebrity(name: artist, profile: "bts", photo: "map"))
+}
+}
 
-    
+
 //    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 //           let cell = tableView.cellForRow(at: indexPath) as! PlaylistTableViewCell
 //           let index = indexPath.row
@@ -149,4 +170,5 @@ extension ViewController: UITableViewDelegate {
 //        navigationController?.pushViewController(viewController, animated: true)
 //        viewController.delegate = self
 //    }
+
 

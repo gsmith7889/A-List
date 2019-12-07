@@ -13,10 +13,12 @@ import UIKit
 class Celebrity: Codable {
     var name: String
     var profile: String
+    var photo: String
     
-    init(name: String, profile: String){
+    init(name: String, profile: String, photo: String){
         self.name = name
         self.profile = profile
+        self.photo = photo
     }
     
 }

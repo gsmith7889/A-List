@@ -107,6 +107,9 @@ class CelebrityTableViewCell: UITableViewCell {
         profileView.image = UIImage(named: celebrity.profile )!
     }
     
+   
+               
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

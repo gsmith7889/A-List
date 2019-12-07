@@ -1,22 +1,33 @@
 //
-//  ArtistViewController.swift
-//  CelebMedia
+//  EditViewController.swift
+//  A-List
 //
-//  Created by Amy Ouyang on 11/17/19.
+//  Created by Amy Ouyang on 12/7/19.
 //  Copyright © 2019 Gabriella Smith. All rights reserved.
 //
+
 import UIKit
 
-class ArtistViewController: UIViewController {
-    
+class EditViewController: ViewController {
     var celebrity: Celebrity
     var nameLabel: UILabel!
     var profileView: UIImageView!
     var nameText: UILabel!
     var bar: UILabel!
     
+    var profileLabel = UILabel()
+    var profileTextLabel = UILabel()
+    var artistLabel = UILabel()
+    var artistTextField = UITextField()
+    var instaLabel = UILabel()
+    var instaTextField = UITextField()
+    var imageTextLabel = UILabel()
+    var imageLabel = UILabel()
+    
     let nameLabelHeight: CGFloat = 36
     let profileLength: CGFloat = 65
+    
+    //    weak var delegate: ArtistDelegate?
     
     init(celebrity: Celebrity) {
         self.celebrity = celebrity
@@ -29,7 +40,7 @@ class ArtistViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        title = "Edit"
         view.backgroundColor = .white
         
         nameLabel = UILabel()
@@ -48,15 +59,15 @@ class ArtistViewController: UIViewController {
         profileView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(profileView)
         
-        bar = UILabel()
-        bar.frame = CGRect(x: 0, y: 0, width: 369, height: 51)
-        bar.backgroundColor = .white
+//        bar = UIImageView()
+//        bar.frame = CGRect(x: 0, y: 0, width: 369, height: 51)
+//        bar.backgroundColor = .white
         
         let shadows = UIView()
         shadows.frame = bar.frame
         shadows.clipsToBounds = false
         bar.addSubview(shadows)
-
+        
         let shadowPath0 = UIBezierPath(roundedRect: shadows.bounds, cornerRadius: 50)
         let layer0 = CALayer()
         layer0.shadowPath = shadowPath0.cgPath
@@ -67,26 +78,39 @@ class ArtistViewController: UIViewController {
         layer0.bounds = shadows.bounds
         layer0.position = shadows.center
         shadows.layer.addSublayer(layer0)
-
+        
         let shapes = UIView()
         shapes.frame = bar.frame
         shapes.clipsToBounds = true
         bar.addSubview(shapes)
-
+        
         let layer1 = CALayer()
         layer1.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 1).cgColor
         layer1.bounds = shapes.bounds
         layer1.position = shapes.center
         shapes.layer.addSublayer(layer1)
-
+        
         shapes.layer.cornerRadius = 25
         bar.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(bar)
-
+        
         setupConstraints()
     }
+
+//    @objc func dismissViewControllerAndSaveText() {
+//           artistTextField
+//           instaTextField = UITextField()
+//
+//           var imageTextLabel = UILabel()
+//           if let text = ATextField.text, text != "" {
+//                      wLabel.text = ""
+//                      delegate?.changeButtonTextB(to: text)
+//                      dismiss(animated: true, completion: nil)
+//                  }
+//
+//              }
     
-    func setupConstraints() {
+    override func setupConstraints() {
         NSLayoutConstraint.activate([
             profileView.heightAnchor.constraint(equalToConstant: profileLength),
             profileView.widthAnchor.constraint(equalToConstant: profileLength),
@@ -103,9 +127,24 @@ class ArtistViewController: UIViewController {
         NSLayoutConstraint.activate([
             bar.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 22),
             bar.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 16)
-//            bar.heightAnchor.constraint(equalToConstant: 51),
-//            bar.widthAnchor.constraint(equalToConstant: 369),
+            //            bar.heightAnchor.constraint(equalToConstant: 51),
+            //            bar.widthAnchor.constraint(equalToConstant: 369),
         ])
     }
     
 }
+// Do any additional setup after loading the view.
+
+
+
+/*
+ // MARK: - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+ // Get the new view controller using segue.destination.
+ // Pass the selected object to the new view controller.
+ }
+ */
+
+
