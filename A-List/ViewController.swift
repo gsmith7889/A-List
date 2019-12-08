@@ -32,9 +32,9 @@ class ViewController: UIViewController, UIActionSheetDelegate {
         title = "A-List"
         view.backgroundColor = .white
         
-        let bts = Celebrity(name: "BTS", profile: "bts", photo: "map")
-        let ariana = Celebrity(name: "Ariana Grande", profile: "ari", photo: "thanks")
-        let halsey = Celebrity(name: "Halsey", profile:  "halsey", photo: "maniac")
+        let bts = Celebrity(name: "BTS", profile: "bts", photo: "map", urls: ["https://www.instagram.com/bts.bighitofficial/", "https://twitter.com/BTS_twt?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor",  "https://open.spotify.com/artist/3Nrfpe0tUJi4K4DXYWgMUX"])
+        let ariana = Celebrity(name: "Ariana Grande", profile: "ari", photo: "thanks", urls: ["https://www.instagram.com/arianagrande/?hl=en", "https://twitter.com/ArianaGrande",  "https://open.spotify.com/artist/66CXWjxzNUsdJxJ2JdwvnR"])
+        let halsey = Celebrity(name: "Halsey", profile:  "halsey", photo: "maniac", urls: ["https://www.instagram.com/iamhalsey/?hl=en", "https://twitter.com/halsey",  "https://open.spotify.com/artist/26VFTg2z8YR0cCuwLzESi2"])
         
         
         celebrities = [bts, ariana, halsey]

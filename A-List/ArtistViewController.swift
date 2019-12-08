@@ -14,6 +14,8 @@ class ArtistViewController: UIViewController {
     var profileView: UIImageView!
     var nameText: UILabel!
     var bar: UILabel!
+    var photoView: UIImageView!
+
     
     let nameLabelHeight: CGFloat = 36
     let profileLength: CGFloat = 65
@@ -51,6 +53,14 @@ class ArtistViewController: UIViewController {
         bar = UILabel()
         bar.frame = CGRect(x: 0, y: 0, width: 369, height: 51)
         bar.backgroundColor = .white
+        
+        photoView = UIImageView()
+        photoView.image = UIImage(named: celebrity.photo)!
+        photoView.clipsToBounds = true
+        photoView.layer.cornerRadius = profileLength/2
+        photoView.contentMode = .scaleAspectFill
+        photoView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(photoView)
         
         let shadows = UIView()
         shadows.frame = bar.frame
@@ -103,8 +113,15 @@ class ArtistViewController: UIViewController {
         NSLayoutConstraint.activate([
             bar.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 22),
             bar.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 16)
-//            bar.heightAnchor.constraint(equalToConstant: 51),
-//            bar.widthAnchor.constraint(equalToConstant: 369),
+            //            bar.heightAnchor.constraint(equalToConstant: 51),
+            //            bar.widthAnchor.constraint(equalToConstant: 369),
+        ])
+        NSLayoutConstraint.activate([
+            photoView.heightAnchor.constraint(equalToConstant: 527),
+            photoView.widthAnchor.constraint(equalToConstant: 369),
+            photoView.topAnchor.constraint(equalTo: bar.bottomAnchor, constant: 80),
+            photoView.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+    
         ])
     }
     

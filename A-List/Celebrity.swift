@@ -14,12 +14,15 @@ class Celebrity: Codable {
     var name: String
     var profile: String
     var photo: String
+    var urls: [String]
+   
     
-    init(name: String, profile: String, photo: String){
+    init(name: String, profile: String, photo: String, urls: [String]){
         self.name = name
         self.profile = profile
         self.photo = photo
-            }
+        self.urls = urls
+    }
     
     
 }
