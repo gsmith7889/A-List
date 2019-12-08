@@ -13,7 +13,6 @@ class AddViewController: UIViewController, UIImagePickerControllerDelegate, UINa
     
     var tappedProfile: Bool = false
     var tappedImage: Bool = false
-//    var url: [String?]
 
     var add = UIButton()
     
@@ -145,12 +144,16 @@ class AddViewController: UIViewController, UIImagePickerControllerDelegate, UINa
     }
     
     @objc func dismissViewControllerAndAdd() {
-//        let artist = artistTextField.text!
-//        url = [instaTextField.text]
-//        let profile = profileImage!
-//        let image = imageImage!
-//        delegate?.addCelebrity(to: artist, to: url, to: profile, to: image)
-        navigationController?.popViewController(animated: true)
+        let artist = artistTextField.text!
+        var url = [instaTextField.text]
+        let profile = profileImage!
+        let image = imageImage!
+//        if (artist != "" || url != nil || profile != nil || image != nil){
+            delegate?.addCelebrity(to: artist, to: url, to: profile, to: image)
+            print(artist, url, profile, image )
+            navigationController?.popViewController(animated: true)
+//        }
+//        else
     }
     
     @objc func presentPicker (sender: UIButton){

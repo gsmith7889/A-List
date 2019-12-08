@@ -8,7 +8,7 @@
 import UIKit
 
 protocol Delegate: class {
-    func addCelebrity (artist: String, to url: [String?], to profile: UIImage!, to image: UIImage!)
+    func addCelebrity (to artist: String, to url: [String?], to profile: UIImage!, to image: UIImage!)
 }
 
 class ViewController: UIViewController, UIActionSheetDelegate {
@@ -146,8 +146,8 @@ extension ViewController: UITableViewDelegate {
 }
 
 extension ViewController: Delegate {
-    func addCelebrity(artist: String, to url: [String?], to profile: UIImage!, to image: UIImage!) {
-        celebritiesAdd.append(CelebrityAdd(name: artist, profile: profile, image: image, url: url as! [String]))
+    func addCelebrity(to artist: String, to url: [String?], to profile: UIImage!, to image: UIImage!) {
+//        celebritiesAdd.append(CelebrityAdd(name: artist, profile: profile, image: image, url: url as! [String]))
 
     }
     
