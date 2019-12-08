@@ -8,7 +8,7 @@
 import UIKit
 
 protocol Delegate: class {
-    func addCelebrity(to artist: String, to insta: String, to profile: UIImage, to image: UIImage)
+    func addCelebrity (artist: String, to url: [String?], to profile: UIImage!, to image: UIImage!)
 }
 
 class ViewController: UIViewController, UIActionSheetDelegate {
@@ -23,7 +23,8 @@ class ViewController: UIViewController, UIActionSheetDelegate {
     let cellHeight: CGFloat = 74
     let cellSpacingHeight: CGFloat = 30
     var celebrities: [Celebrity]!
-    
+    var celebritiesAdd: [CelebrityAdd]!
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -103,7 +104,7 @@ extension ViewController: UITableViewDataSource {
         
         let editAction = UIAlertAction(title: "Edit ✎", style: .default)
         editAction.setValue(UIColor(red: 0.302, green: 0.302, blue: 0.302, alpha: 1), forKey: "titleTextColor")
-//        editAction.
+
         let deleteAction = UIAlertAction(title: "Delete ☓", style: .default, handler: { action in
             self.deleteCelebrity(index: celebrity)})
         deleteAction.setValue(UIColor(red: 0.302, green: 0.302, blue: 0.302, alpha: 1), forKey: "titleTextColor")
@@ -145,10 +146,13 @@ extension ViewController: UITableViewDelegate {
 }
 
 extension ViewController: Delegate {
-    func addCelebrity(to artist: String, to insta: String, to profile: UIImage, to image: UIImage){
-//        celebrities.add(Celebrity(name: artist, profile: "bts", photo: "map"))
+    func addCelebrity(artist: String, to url: [String?], to profile: UIImage!, to image: UIImage!) {
+        celebritiesAdd.append(CelebrityAdd(name: artist, profile: profile, image: image, url: url as! [String]))
+
+    }
+    
 }
-}
+
 
 
 //    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

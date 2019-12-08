@@ -6,22 +6,21 @@
 //  Copyright © 2019 Gabriella Smith. All rights reserved.
 //
 import UIKit
-public protocol ImagePickerDelegate: class {
-    func didSelect(image: UIImage?, name: String)
-}
 
 class AddViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     weak var delegate: Delegate?
     var pickerController = UIImagePickerController()
+    
     var tappedProfile: Bool = false
     var tappedImage: Bool = false
+//    var url: [String?]
 
     var add = UIButton()
     
     var profileAdd = UIButton()
     var profileLabel = UILabel()
     var profileTextLabel = UILabel()
-    var profileImage : UIImageView!
+    var profileImage : UIImage!
     
     var artistLabel = UILabel()
     var artistTextField = UITextField()
@@ -32,7 +31,7 @@ class AddViewController: UIViewController, UIImagePickerControllerDelegate, UINa
     var imageTextLabel = UILabel()
     var imageLabel = UILabel()
     var imageAdd = UIButton()
-    var imageImage : UIImageView!
+    var imageImage : UIImage!
     
     
     var celebs: [Celebrity]!
@@ -50,11 +49,11 @@ class AddViewController: UIViewController, UIImagePickerControllerDelegate, UINa
         pickerController.delegate = self
         pickerController.allowsEditing = true
         pickerController.mediaTypes = ["public.image", "public.movie"]
-        
         super.viewDidLoad()
 
         view.backgroundColor = .white
         title = "Add an Artist"
+        
         
         
         add = UIButton()
@@ -82,12 +81,10 @@ class AddViewController: UIViewController, UIImagePickerControllerDelegate, UINa
         view.addSubview(profileTextLabel)
         
         profileAdd = UIButton()
+        profileAdd.frame = CGRect(x: 0, y: 0, width: 45, height: 45)
         profileAdd.layer.cornerRadius = 45
-        profileAdd.setTitle(" ", for: .normal)
+        profileAdd.layer.backgroundColor = UIColor(red: 0.946, green: 0.946, blue: 0.946, alpha: 1).cgColor
         profileAdd.translatesAutoresizingMaskIntoConstraints = false
-        if let image = UIImage(named: "landscape") {
-            profileAdd.setImage(image, for: .normal)
-        }
         profileAdd.addTarget(self, action: #selector(presentPicker), for: .touchUpInside)
         view.addSubview(profileAdd)
         
@@ -140,6 +137,7 @@ class AddViewController: UIViewController, UIImagePickerControllerDelegate, UINa
         imageAdd.translatesAutoresizingMaskIntoConstraints = false
         imageAdd.frame = CGRect(x: 0, y: 0, width: 120, height: 120)
         imageAdd.addTarget(self, action: #selector(presentPicker), for: .touchUpInside)
+//        imageAdd.isSelected == false
         view.addSubview(imageAdd)
         
         setupConstraints()
@@ -147,52 +145,54 @@ class AddViewController: UIViewController, UIImagePickerControllerDelegate, UINa
     }
     
     @objc func dismissViewControllerAndAdd() {
-//        let artist = artistTextField.text
-//        let insta = instaTextField.text
-//        let profile =
-//        let image =
-//            delegate?.addCelebrity(to: artist, to: insta, to: photo, to: profile, to: image)
+//        let artist = artistTextField.text!
+//        url = [instaTextField.text]
+//        let profile = profileImage!
+//        let image = imageImage!
+//        delegate?.addCelebrity(to: artist, to: url, to: profile, to: image)
         navigationController?.popViewController(animated: true)
     }
     
-    @objc func presentPicker (){
+    @objc func presentPicker (sender: UIButton){
         self.present(pickerController, animated: true)
+        sender.isSelected = true
+        if sender == imageAdd{
+            tappedImage = true
+        }
+        if sender == profileAdd{
+            tappedProfile = true
+        }
     }
+    
     @objc func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         guard let image = info[.editedImage] as? UIImage else { return }
      
         dismiss(animated: true)
         
-        if profileAdd.isSelected == true {
-            profileAdd.setImage(image, for: UIControl.State.selected)
-            profileAdd.isSelected = false
-        }
-        if imageAdd.isSelected == true {
+        if tappedImage{
             imageAdd.setImage(image, for: UIControl.State.selected)
-            imageAdd.isSelected = false
+            imageImage = image
+            tappedImage = false
         }
-        
-
+        if tappedProfile{
+            profileAdd.setImage(image, for: UIControl.State.selected)
+            profileImage = image
+            tappedProfile = false
+        }
     }
     
     
     func setupConstraints() {
         
         NSLayoutConstraint.activate([
-            profileLabel.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 100),
-            profileLabel.heightAnchor.constraint(equalToConstant: 90),
-            profileLabel.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -161),
-            profileLabel.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 162)
-        ])
-        NSLayoutConstraint.activate([
-            profileAdd.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 130),
-            profileAdd.heightAnchor.constraint(equalToConstant: 30),
-            profileAdd.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -192),
-            profileAdd.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 192)
+            profileAdd.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 100),
+            profileAdd.heightAnchor.constraint(equalToConstant: 90),
+            profileAdd.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -161),
+            profileAdd.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 162)
         ])
         
         NSLayoutConstraint.activate([
-            profileTextLabel.topAnchor.constraint(equalTo: profileLabel.bottomAnchor),
+            profileTextLabel.topAnchor.constraint(equalTo: profileAdd.bottomAnchor),
             //            profileTextLabel.heightAnchor.constraint(equalToConstant: 90),
             profileTextLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 32),
             profileTextLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: -32)
@@ -249,8 +249,3 @@ class AddViewController: UIViewController, UIImagePickerControllerDelegate, UINa
     
 }
 
-extension ViewController: ImagePickerDelegate {
-    func didSelect(image: UIImage?, name: String) {
-        
-    }
-}

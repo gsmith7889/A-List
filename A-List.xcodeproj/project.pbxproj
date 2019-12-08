@@ -17,8 +17,8 @@
 		D109E9832399493C004A4093 /* CelebrityTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D109E9822399493C004A4093 /* CelebrityTableViewCell.swift */; };
 		D1FEE97223994974006B0364 /* Celebrity.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1FEE97123994974006B0364 /* Celebrity.swift */; };
 		D1FEE97423994992006B0364 /* ArtistHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1FEE97323994992006B0364 /* ArtistHeader.swift */; };
+		F949EDE2239D8F6E004191B2 /* CelebrityAdd.swift in Sources */ = {isa = PBXBuildFile; fileRef = F949EDE1239D8F6E004191B2 /* CelebrityAdd.swift */; };
 		F98F42A7239B8D6A00302C17 /* EditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F98F42A6239B8D6A00302C17 /* EditViewController.swift */; };
-		F98F42A9239C358200302C17 /* CelebrityAdd.swift in Sources */ = {isa = PBXBuildFile; fileRef = F98F42A8239C358200302C17 /* CelebrityAdd.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,8 +34,8 @@
 		D109E9822399493C004A4093 /* CelebrityTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CelebrityTableViewCell.swift; sourceTree = "<group>"; };
 		D1FEE97123994974006B0364 /* Celebrity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Celebrity.swift; sourceTree = "<group>"; };
 		D1FEE97323994992006B0364 /* ArtistHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistHeader.swift; sourceTree = "<group>"; };
+		F949EDE1239D8F6E004191B2 /* CelebrityAdd.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CelebrityAdd.swift; sourceTree = "<group>"; };
 		F98F42A6239B8D6A00302C17 /* EditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditViewController.swift; sourceTree = "<group>"; };
-		F98F42A8239C358200302C17 /* CelebrityAdd.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CelebrityAdd.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,7 +74,7 @@
 				D109E9822399493C004A4093 /* CelebrityTableViewCell.swift */,
 				F98F42A6239B8D6A00302C17 /* EditViewController.swift */,
 				D1FEE97123994974006B0364 /* Celebrity.swift */,
-				F98F42A8239C358200302C17 /* CelebrityAdd.swift */,
+				F949EDE1239D8F6E004191B2 /* CelebrityAdd.swift */,
 				D1FEE97323994992006B0364 /* ArtistHeader.swift */,
 				D109E97C239948B0004A4093 /* ViewController.swift */,
 				D109E96C23994831004A4093 /* Assets.xcassets */,
@@ -169,7 +169,7 @@
 				D1FEE97423994992006B0364 /* ArtistHeader.swift in Sources */,
 				D1FEE97223994974006B0364 /* Celebrity.swift in Sources */,
 				D109E9672399482F004A4093 /* AppDelegate.swift in Sources */,
-				F98F42A9239C358200302C17 /* CelebrityAdd.swift in Sources */,
+				F949EDE2239D8F6E004191B2 /* CelebrityAdd.swift in Sources */,
 				D109E97F239948F8004A4093 /* AddViewController.swift in Sources */,
 				D109E9832399493C004A4093 /* CelebrityTableViewCell.swift in Sources */,
 				D109E98123994914004A4093 /* ArtistViewController.swift in Sources */,

@@ -19,6 +19,7 @@ class Celebrity: Codable {
         self.name = name
         self.profile = profile
         self.photo = photo
-    }
+            }
+    
     
 }
