@@ -6,15 +6,21 @@
 //  Copyright © 2019 Gabriella Smith. All rights reserved.
 //
 import UIKit
+import SafariServices
 
 class ArtistViewController: UIViewController {
     
     var celebrity: Celebrity
+    
     var nameLabel: UILabel!
     var profileView: UIImageView!
     var nameText: UILabel!
     var bar: UILabel!
     var photoView: UIImageView!
+    
+    var instaButton = UIButton()
+    var twitterButton = UIButton()
+    var spotifyButton = UIButton()
 
     
     let nameLabelHeight: CGFloat = 36
@@ -92,8 +98,55 @@ class ArtistViewController: UIViewController {
         shapes.layer.cornerRadius = 25
         bar.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(bar)
+        
+        instaButton = UIButton()
+        instaButton.frame = CGRect(x: 0, y: 0, width: 28, height: 28)
+        instaButton.layer.cornerRadius = 45
+//        instaButton.layer.backgroundColor = UIColor(red: 0.946, green: 0.946, blue: 0.946, alpha: 1).cgColor
+        instaButton.setImage(UIImage(named: "insta"), for: .normal)
+        instaButton.translatesAutoresizingMaskIntoConstraints = false
+        instaButton.addTarget(self, action: #selector(displayUrl), for: .touchUpInside)
+        view.addSubview(instaButton)
+        
+        twitterButton = UIButton()
+        twitterButton.frame = CGRect(x: 0, y: 0, width: 28, height: 28)
+        twitterButton.layer.cornerRadius = 45
+        //        instaButton.layer.backgroundColor = UIColor(red: 0.946, green: 0.946, blue: 0.946, alpha: 1).cgColor
+        twitterButton.setImage(UIImage(named: "twitter"), for: .normal)
+        twitterButton.translatesAutoresizingMaskIntoConstraints = false
+        twitterButton.addTarget(self, action: #selector(displayUrl), for: .touchUpInside)
+        view.addSubview(twitterButton)
+        
+        spotifyButton = UIButton()
+        spotifyButton.frame = CGRect(x: 0, y: 0, width: 28, height: 28)
+        spotifyButton.layer.cornerRadius = 45
+        //        instaButton.layer.backgroundColor = UIColor(red: 0.946, green: 0.946, blue: 0.946, alpha: 1).cgColor
+        spotifyButton.setImage(UIImage(named: "spotify"), for: .normal)
+        spotifyButton.translatesAutoresizingMaskIntoConstraints = false
+        spotifyButton.addTarget(self, action: #selector(displayUrl), for: .touchUpInside)
+        view.addSubview(spotifyButton)
 
         setupConstraints()
+    }
+    
+    @objc func displayUrl(sender: UIButton){
+        var index: Int = 0
+        
+        if (sender == instaButton){
+            index = 0
+        }else if (sender == twitterButton){
+            index = 1
+        }else if (sender == spotifyButton){
+            index = 2
+        }
+        if let url = URL(string: celebrity.urls[index]) {
+            //            UIApplication.shared.open(url)
+            let config = SFSafariViewController.Configuration()
+            config.entersReaderIfAvailable = true
+            
+            let vc = SFSafariViewController(url: url, configuration: config)
+            present(vc, animated: true)
+        }
     }
     
     func setupConstraints() {
@@ -116,6 +169,32 @@ class ArtistViewController: UIViewController {
             //            bar.heightAnchor.constraint(equalToConstant: 51),
             //            bar.widthAnchor.constraint(equalToConstant: 369),
         ])
+        
+        NSLayoutConstraint.activate([
+            instaButton.leadingAnchor.constraint(equalTo: bar.leadingAnchor, constant: 107),
+            instaButton.topAnchor.constraint(equalTo: bar.bottomAnchor, constant: 12),
+            instaButton.heightAnchor.constraint(equalToConstant: 28),
+            instaButton.widthAnchor.constraint(equalToConstant: 28)
+
+        ])
+        
+        NSLayoutConstraint.activate([
+            twitterButton.leadingAnchor.constraint(equalTo: instaButton.trailingAnchor, constant: 36),
+            twitterButton.topAnchor.constraint(equalTo: bar.bottomAnchor, constant: 12),
+            twitterButton.heightAnchor.constraint(equalToConstant: 28),
+            twitterButton.widthAnchor.constraint(equalToConstant: 28)
+
+        ])
+        
+        
+        NSLayoutConstraint.activate([
+            spotifyButton.leadingAnchor.constraint(equalTo: twitterButton.trailingAnchor, constant: 36),
+            spotifyButton.topAnchor.constraint(equalTo: bar.bottomAnchor, constant: 12),
+            spotifyButton.heightAnchor.constraint(equalToConstant: 28),
+            spotifyButton.widthAnchor.constraint(equalToConstant: 28)
+
+        ])
+        
         NSLayoutConstraint.activate([
             photoView.heightAnchor.constraint(equalToConstant: 527),
             photoView.widthAnchor.constraint(equalToConstant: 369),

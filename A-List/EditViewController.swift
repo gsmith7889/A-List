@@ -8,29 +8,48 @@
 
 import UIKit
 
-class EditViewController: ViewController {
+class EditViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate{
     var celebrity: Celebrity
-    var nameLabel: UILabel!
-    var profileView: UIImageView!
-    var nameText: UILabel!
-    var bar: UILabel!
     
+    weak var delegate: Delegate?
+    
+    var pickerController = UIImagePickerController()
+    
+    var tappedProfile: Bool = false
+    var tappedImage: Bool = false
+    
+    var add = UIButton()
+    
+    var profileAdd = UIButton()
     var profileLabel = UILabel()
     var profileTextLabel = UILabel()
+    var profileImage : UIImage
+    
     var artistLabel = UILabel()
     var artistTextField = UITextField()
+    
     var instaLabel = UILabel()
     var instaTextField = UITextField()
+    
+    var twitterLabel = UILabel()
+    var twitterTextField = UITextField()
+    
+    var spotifyLabel = UILabel()
+    var spotifyTextField = UITextField()
+    
     var imageTextLabel = UILabel()
     var imageLabel = UILabel()
+    var imageAdd = UIButton()
+    var imageImage : UIImage
     
-    let nameLabelHeight: CGFloat = 36
-    let profileLength: CGFloat = 65
     
-    //    weak var delegate: ArtistDelegate?
+    var celebs: [Celebrity]!
+    let padding = 31
     
     init(celebrity: Celebrity) {
         self.celebrity = celebrity
+        profileImage = UIImage(named: celebrity.profile)!
+        imageImage = UIImage(named: celebrity.photo)!
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -39,112 +58,275 @@ class EditViewController: ViewController {
     }
     
     override func viewDidLoad() {
+        pickerController.delegate = self
+        pickerController.allowsEditing = true
+        pickerController.mediaTypes = ["public.image", "public.movie"]
         super.viewDidLoad()
-        title = "Edit"
+        
         view.backgroundColor = .white
+        title = celebrity.name
         
-        nameLabel = UILabel()
-        nameLabel.font = UIFont(name: "Verdana", size: 30)
-        nameLabel.textColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.7)
-        nameLabel.text = celebrity.name
-        nameLabel.addCharacterSpacing(kernValue: 0.75)
-        nameLabel.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(nameLabel)
         
-        profileView = UIImageView()
-        profileView.image = UIImage(named: celebrity.profile)!
-        profileView.clipsToBounds = true
-        profileView.layer.cornerRadius = profileLength/2
-        profileView.contentMode = .scaleAspectFill
-        profileView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(profileView)
         
-//        bar = UIImageView()
-//        bar.frame = CGRect(x: 0, y: 0, width: 369, height: 51)
-//        bar.backgroundColor = .white
+        add = UIButton()
+        add.layer.backgroundColor = UIColor(red: 0.388, green: 0.341, blue: 1, alpha: 1).cgColor
+        add.layer.cornerRadius = 8
+        add.setTitle("Update", for: .normal)
+        add.addTarget(self, action: #selector(dismissViewControllerAndAdd), for: .touchUpInside)
+        add.setTitleColor(.white, for: .normal)
+        add.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(add)
         
-        let shadows = UIView()
-        shadows.frame = bar.frame
-        shadows.clipsToBounds = false
-        bar.addSubview(shadows)
+        profileLabel = UILabel()
+        profileLabel.translatesAutoresizingMaskIntoConstraints = false
+        profileLabel.frame = CGRect(x: 0, y: 0, width: 45, height: 45)
+        profileLabel.layer.backgroundColor = UIColor(red: 0.946, green: 0.946, blue: 0.946, alpha: 1).cgColor
+        profileLabel.layer.cornerRadius = 45
+        view.addSubview(profileLabel)
         
-        let shadowPath0 = UIBezierPath(roundedRect: shadows.bounds, cornerRadius: 50)
-        let layer0 = CALayer()
-        layer0.shadowPath = shadowPath0.cgPath
-        layer0.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.25).cgColor
-        layer0.shadowOpacity = 1
-        layer0.shadowRadius = 10
-        layer0.shadowOffset = CGSize(width: 0, height: 4)
-        layer0.bounds = shadows.bounds
-        layer0.position = shadows.center
-        shadows.layer.addSublayer(layer0)
+        profileTextLabel  = UILabel()
+        profileTextLabel.translatesAutoresizingMaskIntoConstraints = false
+        profileTextLabel.text = "Add a Profile Picture"
+        profileTextLabel.textColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.7)
+        profileTextLabel.textAlignment = .center
+        profileTextLabel.font = UIFont.systemFont(ofSize: 10)
+        view.addSubview(profileTextLabel)
         
-        let shapes = UIView()
-        shapes.frame = bar.frame
-        shapes.clipsToBounds = true
-        bar.addSubview(shapes)
+        profileAdd = UIButton()
+        profileAdd.frame = CGRect(x: 0, y: 0, width: 45, height: 45)
+        profileAdd.layer.cornerRadius = 45
+        profileAdd.layer.backgroundColor = UIColor(red: 0.946, green: 0.946, blue: 0.946, alpha: 1).cgColor
+        profileAdd.translatesAutoresizingMaskIntoConstraints = false
+        profileAdd.addTarget(self, action: #selector(presentPicker), for: .touchUpInside)
+        profileAdd.setImage(UIImage(named: celebrity.profile )!, for: UIControl.State.normal)
+
+        view.addSubview(profileAdd)
         
-        let layer1 = CALayer()
-        layer1.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 1).cgColor
-        layer1.bounds = shapes.bounds
-        layer1.position = shapes.center
-        shapes.layer.addSublayer(layer1)
+        artistLabel = UILabel()
+        artistLabel.text = "Artist's Name* "
+        artistLabel.textColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.7)
+        artistLabel.translatesAutoresizingMaskIntoConstraints = false
+        artistLabel.textAlignment = .center
+        artistLabel.font = UIFont.systemFont(ofSize: 10)
+        view.addSubview(artistLabel)
         
-        shapes.layer.cornerRadius = 25
-        bar.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(bar)
+        artistTextField = UITextField()
+        artistTextField.backgroundColor = .white
+        artistTextField.text = celebrity.name
+        artistTextField.translatesAutoresizingMaskIntoConstraints = false
+        artistTextField.textAlignment = .left
+        artistTextField.layer.backgroundColor = UIColor(red: 0.946, green: 0.946, blue: 0.946, alpha: 1).cgColor
+        artistTextField.layer.cornerRadius = 10
+        view.addSubview(artistTextField)
+        
+        instaLabel = UILabel()
+        instaLabel.text = "Instagram "
+        instaLabel.textColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.7)
+        instaLabel.translatesAutoresizingMaskIntoConstraints = false
+        instaLabel.textAlignment = .center
+        instaLabel.font = UIFont.systemFont(ofSize: 10)
+        view.addSubview(instaLabel)
+        
+        instaTextField = UITextField()
+        instaTextField.backgroundColor = .white
+        instaTextField.text = celebrity.urls[0]
+        instaTextField.translatesAutoresizingMaskIntoConstraints = false
+        instaTextField.textAlignment = .left
+        instaTextField.layer.backgroundColor = UIColor(red: 0.946, green: 0.946, blue: 0.946, alpha: 1).cgColor
+        instaTextField.layer.cornerRadius = 10
+        view.addSubview(instaTextField)
+        
+        twitterLabel = UILabel()
+        twitterLabel.text = "Twitter "
+        twitterLabel.textColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.7)
+        twitterLabel.translatesAutoresizingMaskIntoConstraints = false
+        twitterLabel.textAlignment = .center
+        twitterLabel.font = UIFont.systemFont(ofSize: 10)
+        view.addSubview(twitterLabel)
+        
+        twitterTextField = UITextField()
+        twitterTextField.backgroundColor = .white
+        twitterTextField.text = celebrity.urls[1]
+        twitterTextField.translatesAutoresizingMaskIntoConstraints = false
+        twitterTextField.textAlignment = .left
+        twitterTextField.layer.backgroundColor = UIColor(red: 0.946, green: 0.946, blue: 0.946, alpha: 1).cgColor
+        twitterTextField.layer.cornerRadius = 10
+        view.addSubview(twitterTextField)
+        
+        spotifyLabel = UILabel()
+        spotifyLabel.text = "Spotify "
+        spotifyLabel.textColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.7)
+        spotifyLabel.translatesAutoresizingMaskIntoConstraints = false
+        spotifyLabel.textAlignment = .center
+        spotifyLabel.font = UIFont.systemFont(ofSize: 10)
+        view.addSubview(spotifyLabel)
+        
+        spotifyTextField = UITextField()
+        spotifyTextField.backgroundColor = .white
+        spotifyTextField.text = celebrity.urls[2]
+        spotifyTextField.translatesAutoresizingMaskIntoConstraints = false
+        spotifyTextField.textAlignment = .left
+        spotifyTextField.layer.backgroundColor = UIColor(red: 0.946, green: 0.946, blue: 0.946, alpha: 1).cgColor
+        spotifyTextField.layer.cornerRadius = 10
+        view.addSubview(spotifyTextField)
+        
+        imageTextLabel  = UILabel()
+        imageTextLabel.translatesAutoresizingMaskIntoConstraints = false
+        imageTextLabel.text = "Add a Photo"
+        imageTextLabel.textColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.7)
+        imageTextLabel.textAlignment = .center
+        imageTextLabel.font = UIFont.systemFont(ofSize: 10)
+        view.addSubview(imageTextLabel)
+        
+        imageAdd = UIButton()
+        imageAdd.layer.cornerRadius = 10
+        imageAdd.layer.backgroundColor = UIColor(red: 0.946, green: 0.946, blue: 0.946, alpha: 1).cgColor
+        imageAdd.setTitle("  ", for: .normal)
+        imageAdd.translatesAutoresizingMaskIntoConstraints = false
+        imageAdd.frame = CGRect(x: 0, y: 0, width: 120, height: 120)
+        imageAdd.addTarget(self, action: #selector(presentPicker), for: .touchUpInside)
+        imageAdd.setImage(UIImage(named: celebrity.photo )!, for: UIControl.State.normal)
+        view.addSubview(imageAdd)
         
         setupConstraints()
+        
     }
-
-//    @objc func dismissViewControllerAndSaveText() {
-//           artistTextField
-//           instaTextField = UITextField()
-//
-//           var imageTextLabel = UILabel()
-//           if let text = ATextField.text, text != "" {
-//                      wLabel.text = ""
-//                      delegate?.changeButtonTextB(to: text)
-//                      dismiss(animated: true, completion: nil)
-//                  }
-//
-//              }
     
-    override func setupConstraints() {
+    @objc func dismissViewControllerAndAdd() {
+        let artist = artistTextField.text!
+        var url = [instaTextField.text, twitterTextField.text, spotifyTextField.text]
+        let profile = profileImage
+        let image = imageImage
+        let celeb = celebrity
+        //        if (artist != "" || url != nil || profile != nil || image != nil){
+        delegate?.editCelebrity(to: artist, to: url as! [String], to: profile, to: image, to: celeb)
+        print(artist, url, profile, image )
+        navigationController?.popViewController(animated: true)
+        //        }
+        //        else
+    }
+    
+    @objc func presentPicker (sender: UIButton){
+        self.present(pickerController, animated: true)
+        sender.isSelected = true
+        if sender == imageAdd{
+            tappedImage = true
+        }
+        if sender == profileAdd{
+            tappedProfile = true
+        }
+    }
+    
+    @objc func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        guard let image = info[.editedImage] as? UIImage else { return }
+        
+        dismiss(animated: true)
+        
+        if tappedImage{
+            imageAdd.setImage(image, for: UIControl.State.selected)
+            imageImage = image
+            tappedImage = false
+            imageAdd.isSelected = false
+
+        }
+        if tappedProfile{
+            profileAdd.setImage(image, for: UIControl.State.selected)
+            profileImage = image
+            tappedProfile = false
+            profileAdd.isSelected = false
+
+        }
+    }
+    
+    
+    func setupConstraints() {
+        
         NSLayoutConstraint.activate([
-            profileView.heightAnchor.constraint(equalToConstant: profileLength),
-            profileView.widthAnchor.constraint(equalToConstant: profileLength),
-            profileView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            profileView.topAnchor.constraint(equalTo: view.topAnchor, constant: 100),
+            profileAdd.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 100),
+            profileAdd.heightAnchor.constraint(equalToConstant: 90),
+            profileAdd.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -161),
+            profileAdd.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 162)
         ])
         
         NSLayoutConstraint.activate([
-            nameLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            nameLabel.heightAnchor.constraint(equalToConstant: nameLabelHeight),
-            nameLabel.topAnchor.constraint(equalTo: profileView.bottomAnchor, constant: 16)
+            profileTextLabel.topAnchor.constraint(equalTo: profileAdd.bottomAnchor),
+            //            profileTextLabel.heightAnchor.constraint(equalToConstant: 90),
+            profileTextLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 32),
+            profileTextLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: -32)
+        ])
+        NSLayoutConstraint.activate([
+            artistLabel.topAnchor.constraint(equalTo: profileTextLabel.bottomAnchor, constant: CGFloat(padding)),
+            artistLabel.heightAnchor.constraint(equalToConstant: 12),
+            artistLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -50),
+            artistLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: -164)
+        ])
+        NSLayoutConstraint.activate([
+            artistTextField.topAnchor.constraint(equalTo: artistLabel.bottomAnchor, constant: 1),
+            artistTextField.heightAnchor.constraint(equalToConstant: 32),
+            artistTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -45),
+            artistTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 45)
+        ])
+        NSLayoutConstraint.activate([
+            instaLabel.topAnchor.constraint(equalTo: artistTextField.bottomAnchor, constant: CGFloat(padding)),
+            instaLabel.heightAnchor.constraint(equalToConstant: 12),
+            instaLabel.trailingAnchor.constraint(equalTo: artistLabel.trailingAnchor, constant: CGFloat(-padding)),
+            instaLabel.leadingAnchor.constraint(equalTo: artistLabel.leadingAnchor)
+        ])
+        NSLayoutConstraint.activate([
+            instaTextField.topAnchor.constraint(equalTo: instaLabel.bottomAnchor, constant: 1),
+            instaTextField.heightAnchor.constraint(equalToConstant: 32),
+            instaTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -45),
+            instaTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 45)
+        ])
+        NSLayoutConstraint.activate([
+            twitterLabel.topAnchor.constraint(equalTo: instaTextField.bottomAnchor, constant: CGFloat(padding)),
+            twitterLabel.heightAnchor.constraint(equalToConstant: 12),
+            twitterLabel.trailingAnchor.constraint(equalTo: artistLabel.trailingAnchor, constant: CGFloat(-padding)),
+            twitterLabel.leadingAnchor.constraint(equalTo: artistLabel.leadingAnchor)
+        ])
+        NSLayoutConstraint.activate([
+            twitterTextField.topAnchor.constraint(equalTo: twitterLabel.bottomAnchor, constant: 1),
+            twitterTextField.heightAnchor.constraint(equalToConstant: 32),
+            twitterTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -45),
+            twitterTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 45)
+        ])
+        NSLayoutConstraint.activate([
+            spotifyLabel.topAnchor.constraint(equalTo: twitterTextField.bottomAnchor, constant: CGFloat(padding)),
+            spotifyLabel.heightAnchor.constraint(equalToConstant: 12),
+            spotifyLabel.trailingAnchor.constraint(equalTo: artistLabel.trailingAnchor, constant: CGFloat(-padding)),
+            spotifyLabel.leadingAnchor.constraint(equalTo: artistLabel.leadingAnchor)
+        ])
+        NSLayoutConstraint.activate([
+            spotifyTextField.topAnchor.constraint(equalTo: spotifyLabel.bottomAnchor, constant: 1),
+            spotifyTextField.heightAnchor.constraint(equalToConstant: 32),
+            spotifyTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -45),
+            spotifyTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 45)
+        ])
+        NSLayoutConstraint.activate([
+            imageTextLabel.topAnchor.constraint(equalTo: spotifyTextField.bottomAnchor, constant: CGFloat(padding)),
+            //            profileTextLabel.heightAnchor.constraint(equalToConstant: 90),
+            imageTextLabel.trailingAnchor.constraint(equalTo: artistLabel.trailingAnchor, constant: CGFloat(-padding)),
+            imageTextLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: -164)
+        ])
+        NSLayoutConstraint.activate([
+            imageAdd.topAnchor.constraint(equalTo: imageTextLabel.bottomAnchor, constant: 1),
+            imageAdd.heightAnchor.constraint(equalToConstant: 120),
+            imageAdd.trailingAnchor.constraint(equalTo: artistTextField.leadingAnchor, constant: 120),
+            imageAdd.leadingAnchor.constraint(equalTo: artistTextField.leadingAnchor)
         ])
         
+        //        NSLayoutConstraint.activate([
+        //            imageImage.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 116),
+        //            imageImage.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 192)
+        //        ])
         NSLayoutConstraint.activate([
-            bar.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 22),
-            bar.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 16)
-            //            bar.heightAnchor.constraint(equalToConstant: 51),
-            //            bar.widthAnchor.constraint(equalToConstant: 369),
+            add.widthAnchor.constraint(equalToConstant: 113),
+            add.heightAnchor.constraint(equalToConstant: 38),
+            add.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 150),
+            add.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -29)
         ])
+        
     }
     
 }
-// Do any additional setup after loading the view.
-
-
-
-/*
- // MARK: - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
- // Get the new view controller using segue.destination.
- // Pass the selected object to the new view controller.
- }
- */
-
 

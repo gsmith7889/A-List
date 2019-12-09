@@ -9,16 +9,30 @@ import Foundation
 import UIKit
 
 class CelebrityAdd  {
-var name: String
-    var profile: UIImage
-    var image: UIImage
-    var url: [String]
     
-    init(name: String, profile: UIImage, image: UIImage, url: [String]){
+    var name: String
+    var profile: String
+    var profileI: UIImage
+    var photo: String
+    var image: UIImage
+    var urls: [String]
+    
+
+
+    init(name: String, profile: String, profileI: UIImage, photo: String, image: UIImage, urls: [String]){
         self.name = name
         self.profile = profile
+        self.profileI = profileI
+        self.photo = photo
         self.image = image
-        self.url = url
-        
+        self.urls = urls
+
     }
+    
+//    init(name: String, profile: String, photo: String, urls: [String]){
+//        self.name = name
+//        self.profile = profile
+//        self.photo = photo
+//        self.urls = urls
+//    }
 }

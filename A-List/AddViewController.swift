@@ -27,6 +27,12 @@ class AddViewController: UIViewController, UIImagePickerControllerDelegate, UINa
     var instaLabel = UILabel()
     var instaTextField = UITextField()
     
+    var twitterLabel = UILabel()
+    var twitterTextField = UITextField()
+    
+    var spotifyLabel = UILabel()
+    var spotifyTextField = UITextField()
+    
     var imageTextLabel = UILabel()
     var imageLabel = UILabel()
     var imageAdd = UIButton()
@@ -49,7 +55,7 @@ class AddViewController: UIViewController, UIImagePickerControllerDelegate, UINa
         pickerController.allowsEditing = true
         pickerController.mediaTypes = ["public.image", "public.movie"]
         super.viewDidLoad()
-
+        
         view.backgroundColor = .white
         title = "Add an Artist"
         
@@ -121,6 +127,38 @@ class AddViewController: UIViewController, UIImagePickerControllerDelegate, UINa
         instaTextField.layer.cornerRadius = 10
         view.addSubview(instaTextField)
         
+        twitterLabel = UILabel()
+        twitterLabel.text = "Twitter "
+        twitterLabel.textColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.7)
+        twitterLabel.translatesAutoresizingMaskIntoConstraints = false
+        twitterLabel.textAlignment = .center
+        twitterLabel.font = UIFont.systemFont(ofSize: 10)
+        view.addSubview(twitterLabel)
+        
+        twitterTextField = UITextField()
+        twitterTextField.backgroundColor = .white
+        twitterTextField.translatesAutoresizingMaskIntoConstraints = false
+        twitterTextField.textAlignment = .left
+        twitterTextField.layer.backgroundColor = UIColor(red: 0.946, green: 0.946, blue: 0.946, alpha: 1).cgColor
+        twitterTextField.layer.cornerRadius = 10
+        view.addSubview(twitterTextField)
+        
+        spotifyLabel = UILabel()
+        spotifyLabel.text = "Spotify "
+        spotifyLabel.textColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.7)
+        spotifyLabel.translatesAutoresizingMaskIntoConstraints = false
+        spotifyLabel.textAlignment = .center
+        spotifyLabel.font = UIFont.systemFont(ofSize: 10)
+        view.addSubview(spotifyLabel)
+        
+        spotifyTextField = UITextField()
+        spotifyTextField.backgroundColor = .white
+        spotifyTextField.translatesAutoresizingMaskIntoConstraints = false
+        spotifyTextField.textAlignment = .left
+        spotifyTextField.layer.backgroundColor = UIColor(red: 0.946, green: 0.946, blue: 0.946, alpha: 1).cgColor
+        spotifyTextField.layer.cornerRadius = 10
+        view.addSubview(spotifyTextField)
+        
         imageTextLabel  = UILabel()
         imageTextLabel.translatesAutoresizingMaskIntoConstraints = false
         imageTextLabel.text = "Add a Photo"
@@ -145,11 +183,11 @@ class AddViewController: UIViewController, UIImagePickerControllerDelegate, UINa
     
     @objc func dismissViewControllerAndAdd() {
         let artist = artistTextField.text!
-        var url = [instaTextField.text]
+        let url = [instaTextField.text, twitterTextField.text, spotifyTextField.text]
         let profile = profileImage!
         let image = imageImage!
 //        if (artist != "" || url != nil || profile != nil || image != nil){
-            delegate?.addCelebrity(to: artist, to: url, to: profile, to: image)
+        delegate?.addCelebrity(to: artist, to: url as! [String], to: profile, to: image)
             print(artist, url, profile, image )
             navigationController?.popViewController(animated: true)
 //        }
@@ -225,7 +263,31 @@ class AddViewController: UIViewController, UIImagePickerControllerDelegate, UINa
             instaTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 45)
         ])
         NSLayoutConstraint.activate([
-            imageTextLabel.topAnchor.constraint(equalTo: instaTextField.bottomAnchor, constant: CGFloat(padding)),
+            twitterLabel.topAnchor.constraint(equalTo: instaTextField.bottomAnchor, constant: CGFloat(padding)),
+            twitterLabel.heightAnchor.constraint(equalToConstant: 12),
+            twitterLabel.trailingAnchor.constraint(equalTo: artistLabel.trailingAnchor, constant: CGFloat(-padding)),
+            twitterLabel.leadingAnchor.constraint(equalTo: artistLabel.leadingAnchor)
+        ])
+        NSLayoutConstraint.activate([
+            twitterTextField.topAnchor.constraint(equalTo: twitterLabel.bottomAnchor, constant: 1),
+            twitterTextField.heightAnchor.constraint(equalToConstant: 32),
+            twitterTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -45),
+            twitterTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 45)
+        ])
+        NSLayoutConstraint.activate([
+            spotifyLabel.topAnchor.constraint(equalTo: twitterTextField.bottomAnchor, constant: CGFloat(padding)),
+            spotifyLabel.heightAnchor.constraint(equalToConstant: 12),
+            spotifyLabel.trailingAnchor.constraint(equalTo: artistLabel.trailingAnchor, constant: CGFloat(-padding)),
+            spotifyLabel.leadingAnchor.constraint(equalTo: artistLabel.leadingAnchor)
+        ])
+        NSLayoutConstraint.activate([
+            spotifyTextField.topAnchor.constraint(equalTo: spotifyLabel.bottomAnchor, constant: 1),
+            spotifyTextField.heightAnchor.constraint(equalToConstant: 32),
+            spotifyTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -45),
+            spotifyTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 45)
+        ])
+        NSLayoutConstraint.activate([
+            imageTextLabel.topAnchor.constraint(equalTo: spotifyTextField.bottomAnchor, constant: CGFloat(padding)),
             //            profileTextLabel.heightAnchor.constraint(equalToConstant: 90),
             imageTextLabel.trailingAnchor.constraint(equalTo: artistLabel.trailingAnchor, constant: CGFloat(-padding)),
             imageTextLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: -164)

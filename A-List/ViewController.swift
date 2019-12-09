@@ -8,13 +8,16 @@
 import UIKit
 
 protocol Delegate: class {
-    func addCelebrity (to artist: String, to url: [String?], to profile: UIImage!, to image: UIImage!)
+    func addCelebrity (to artist: String, to url: [String], to profile: UIImage!, to image: UIImage!)
+    func editCelebrity (to artist: String, to url: [String], to profile: UIImage!, to image: UIImage!, to celeb: Celebrity)
+
 }
 
 class ViewController: UIViewController, UIActionSheetDelegate {
-    
     var isMultipleTouchEnabled: Bool {true}
     var tableView: UITableView!
+    var addedTableView: UITableView!
+
     var artistCountLabel: UILabel!
     let rightBarButtonItem = UIBarButtonItem()
     
@@ -51,6 +54,16 @@ class ViewController: UIViewController, UIActionSheetDelegate {
         headerView.artistCountLabel.text = "You have added " + String(celebrities.count) + " artist(s)."
         view.addSubview(tableView)
         
+        addedTableView = UITableView()
+        addedTableView.separatorStyle = .none
+        addedTableView.backgroundColor = .white
+        addedTableView.translatesAutoresizingMaskIntoConstraints = false
+        addedTableView.delegate = self
+        addedTableView.dataSource = self
+        addedTableView.register(CelebrityTableViewCell.self, forCellReuseIdentifier: reuseIdentifier)
+        view.addSubview(addedTableView)
+
+        
         rightBarButtonItem.title = "➕"
         rightBarButtonItem.style = .plain
         rightBarButtonItem.tintColor = .black
@@ -75,7 +88,12 @@ class ViewController: UIViewController, UIActionSheetDelegate {
             tableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 17),
             tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 8),
-            
+        ])
+        NSLayoutConstraint.activate([
+            addedTableView.widthAnchor.constraint(equalToConstant: cellWidth + 10),
+            addedTableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 17),
+            addedTableView.topAnchor.constraint(equalTo: tableView.bottomAnchor, constant: 20),
+            addedTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 8),
         ])
     }
 }
@@ -87,7 +105,8 @@ extension ViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = self.tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! CelebrityTableViewCell
+        if tableView == tableView{
+            let cell = self.tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! CelebrityTableViewCell
         let celeb = self.celebrities[indexPath.row]
         cell.configure(for: celeb)
         cell.selectionStyle = .none
@@ -95,6 +114,18 @@ extension ViewController: UITableViewDataSource {
         cell.ellipse.addTarget(self, action: #selector(self.displayActionSheet), for: .touchUpInside)
         
         return cell
+        }
+        else {
+            let cell = self.tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! AddCelebrityTableViewCell
+            let celeb = self.celebritiesAdd[indexPath.row]
+            cell.configureAdd(for: celeb)
+            cell.selectionStyle = .none
+            cell.ellipse.tag = indexPath.row
+            cell.ellipse.addTarget(self, action: #selector(self.displayActionSheet), for: .touchUpInside)
+            
+            return cell
+            
+        }
     }
     
     @objc func displayActionSheet(_ sender: UIButton){
@@ -102,7 +133,8 @@ extension ViewController: UITableViewDataSource {
         
         let optionMenu = UIAlertController(title: nil, message: "Choose Option", preferredStyle: .actionSheet)
         
-        let editAction = UIAlertAction(title: "Edit ✎", style: .default)
+        let editAction = UIAlertAction(title: "Edit ✎", style: .default, handler: { action in
+            self.editCelebrity(index: celebrity) })
         editAction.setValue(UIColor(red: 0.302, green: 0.302, blue: 0.302, alpha: 1), forKey: "titleTextColor")
 
         let deleteAction = UIAlertAction(title: "Delete ☓", style: .default, handler: { action in
@@ -119,6 +151,12 @@ extension ViewController: UITableViewDataSource {
         self.present(optionMenu, animated: true, completion: nil)
     }
     
+    func editCelebrity(index : Celebrity){
+        let viewController =  EditViewController(celebrity: index)
+            viewController.delegate = self
+            navigationController?.pushViewController(viewController, animated: true)
+        }
+        
     func deleteCelebrity(index : Celebrity){
         celebrities.removeAll { (celeb) -> Bool in
             if  index.name == celeb.name{
@@ -139,16 +177,26 @@ extension ViewController: UITableViewDelegate {
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath){
         let celebrity = celebrities[indexPath.row]
-        let viewController = ArtistViewController(celebrity: celebrity)
+        let viewController = EditViewController(celebrity: celebrity)
         navigationController?.pushViewController(viewController, animated: true)
         
     }
 }
 
 extension ViewController: Delegate {
-    func addCelebrity(to artist: String, to url: [String?], to profile: UIImage!, to image: UIImage!) {
-//        celebritiesAdd.append(CelebrityAdd(name: artist, profile: profile, image: image, url: url as! [String]))
-
+    func editCelebrity(to artist: String, to url: [String], to profile: UIImage!, to image: UIImage!, to celeb: Celebrity) {
+        for celebs in celebrities{
+               if  celeb.name == celebs.name{
+                celeb.urls = url
+                celeb.photo = profile
+//
+                   }
+               }
+    }
+    
+    
+    func addCelebrity(to artist: String, to url: [String], to profile: UIImage!, to image: UIImage!) {
+        celebritiesAdd.append(CelebrityAdd(name: artist, profile: "", profileI: profile, photo: "", image: image , urls: url as [String]))
     }
     
 }

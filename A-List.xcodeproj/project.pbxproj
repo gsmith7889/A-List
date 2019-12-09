@@ -18,6 +18,7 @@
 		D1FEE97223994974006B0364 /* Celebrity.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1FEE97123994974006B0364 /* Celebrity.swift */; };
 		D1FEE97423994992006B0364 /* ArtistHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1FEE97323994992006B0364 /* ArtistHeader.swift */; };
 		F949EDE2239D8F6E004191B2 /* CelebrityAdd.swift in Sources */ = {isa = PBXBuildFile; fileRef = F949EDE1239D8F6E004191B2 /* CelebrityAdd.swift */; };
+		F949EDEA239E036A004191B2 /* AddCelebrityTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F949EDE9239E036A004191B2 /* AddCelebrityTableViewCell.swift */; };
 		F98F42A7239B8D6A00302C17 /* EditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F98F42A6239B8D6A00302C17 /* EditViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -35,6 +36,7 @@
 		D1FEE97123994974006B0364 /* Celebrity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Celebrity.swift; sourceTree = "<group>"; };
 		D1FEE97323994992006B0364 /* ArtistHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistHeader.swift; sourceTree = "<group>"; };
 		F949EDE1239D8F6E004191B2 /* CelebrityAdd.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CelebrityAdd.swift; sourceTree = "<group>"; };
+		F949EDE9239E036A004191B2 /* AddCelebrityTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCelebrityTableViewCell.swift; sourceTree = "<group>"; };
 		F98F42A6239B8D6A00302C17 /* EditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -77,6 +79,7 @@
 				F949EDE1239D8F6E004191B2 /* CelebrityAdd.swift */,
 				D1FEE97323994992006B0364 /* ArtistHeader.swift */,
 				D109E97C239948B0004A4093 /* ViewController.swift */,
+				F949EDE9239E036A004191B2 /* AddCelebrityTableViewCell.swift */,
 				D109E96C23994831004A4093 /* Assets.xcassets */,
 				D109E97123994831004A4093 /* LaunchScreen.storyboard */,
 				D109E97423994831004A4093 /* Info.plist */,
@@ -165,6 +168,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F98F42A7239B8D6A00302C17 /* EditViewController.swift in Sources */,
+				F949EDEA239E036A004191B2 /* AddCelebrityTableViewCell.swift in Sources */,
 				D109E97D239948B0004A4093 /* ViewController.swift in Sources */,
 				D1FEE97423994992006B0364 /* ArtistHeader.swift in Sources */,
 				D1FEE97223994974006B0364 /* Celebrity.swift in Sources */,
