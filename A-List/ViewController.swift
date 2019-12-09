@@ -177,7 +177,7 @@ extension ViewController: UITableViewDelegate {
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath){
         let celebrity = celebrities[indexPath.row]
-        let viewController = EditViewController(celebrity: celebrity)
+        let viewController = ArtistViewController(celebrity: celebrity)
         navigationController?.pushViewController(viewController, animated: true)
         
     }
@@ -187,8 +187,8 @@ extension ViewController: Delegate {
     func editCelebrity(to artist: String, to url: [String], to profile: UIImage!, to image: UIImage!, to celeb: Celebrity) {
         for celebs in celebrities{
                if  celeb.name == celebs.name{
-                celeb.urls = url
-                celeb.photo = profile
+//                celeb.urls = url
+//                celeb.photo = profile
 //
                    }
                }
